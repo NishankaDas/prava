@@ -3,12 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Prava Garments</title>
+  <title>Prava Crafts</title>
+  <link rel="icon" href="logo2.png" type="image/x-icon">
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
   <header>
-    <div class="logo">Prava Garments</div>
+    <div class="logo"><img src="logo.png" alt="Logo of Prava Crafts a branch of Prava Garments " class="img-logo"></div>
     <nav>
       <a href="index.html">Home</a>
       <a href="crafts.html">Crafts</a>
@@ -25,35 +27,105 @@
   <section class="featured">
     <h2>Featured Products</h2>
     <div class="grid">
-      <div class="card">
-        <img src="images/bag.webp" alt="Hand-Painted Vase">
-        <h3>Hand-Painted Vase</h3>
-        <p>A delicate clay vase adorned with floral patterns.</p>
-        <p class="price"><span class="old">₹1200</span> ₹950</p>
-        <a href="https://wa.me/9339949998?text=Hi%2C%20I%27d%20like%20to%20buy%20Hand-Painted%20Vase%20(₹950)%20-%20Image%3A%20vase.jpg" class="buy-btn">Buy via WhatsApp</a>
-      </div>
+      
 
       <div class="card">
-        <img src="images/bag.webp" alt="Knitted Tote Bag">
-        <h3>Knitted Tote Bag</h3>
-        <p>Stylish eco-friendly bag, perfect for daily use.</p>
-        <p class="price"><span class="old">₹800</span> ₹600</p>
-        <a href="https://wa.me/9339949998?text=Hi%2C%20I%27d%20like%20to%20buy%20Knitted%20Tote%20Bag%20(₹600)%20-%20Image%3A%20flower.jpg" class="buy-btn">Buy via WhatsApp</a>
+        <img
+          src="images/Dancing Woman/Dancing Women 2.jpg"
+          alt="Dancing Woman Straw Craft A4"
+          class="product-img"
+          data-gallery='[
+            "images/Dancing Woman/Dancing Women 2.jpg",
+            "images/Dancing Woman/Dancing Women .jpg"
+          ]'
+        >
+
+        <h3>Dancing Woman Straw Craft</h3>
+        <p>A rear eco-friendly art made by paddy straw. This picture describes a dancing woman</p>
+
+        <p class="price">
+          <span class="old">₹1500</span> ₹1100
+        </p>
+
+        <a
+          href="https://wa.me/9339949998?text=Hi%2C%20I%27d%20like%20to%20buy%20Dancing%20Woman%20Straw%20Craft%20A4%20Item Number : STC2025 %20Price%20(₹1100)"
+          class="buy-btn"
+        >
+          Buy via WhatsApp
+        </a>
       </div>
 
+
       <div class="card">
-        <img src="images/bag.webp" alt="Linen Summer Dress">
-        <h3>Linen Summer Dress</h3>
-        <p>Breathable, elegant, and crafted for comfort.</p>
-        <p class="price"><span class="old">₹2500</span> ₹1999</p>
-        <a href="https://wa.me/9339949998?text=Hi%2C%20I%27d%20like%20to%20buy%20Linen%20Summer%20Dress%20(₹1999)%20-%20Image%3A%20dress.jpg" class="buy-btn">Buy via WhatsApp</a>
+        <img
+          src="images/Gujrati Stich/Sharee.jpg"
+          alt="Dancing Woman Straw Craft A4"
+          class="product-img"
+          data-gallery='[
+            "images/Gujrati Stich/Sharee.jpg",
+            "images/Gujrati Stich/Sharee 3.jpg",
+            "images/Gujrati Stich/Sharee2.jpg"
+          ]'
+        >
+
+        <h3>Gujrati Stich Sharee</h3>
+        <p>A rear collection of Gujrati Stich Sharee <br>Chat for detailed collection</p>
+
+        <p class="price">
+          <span class="old">₹5000</span>From ₹2300 to ₹4200
+        </p>
+
+        <a
+          href="https://wa.me/9339949998?text=Hi%2C%20I%27d%20like%20to%20buy%20Gujrati Stich sharee%20Item Number : GSS2025 %20Price%20(₹2300-₹4200)"
+          class="buy-btn"
+        >
+          Buy via WhatsApp
+        </a>
+      </div>
+
+
+
+
+      <div class="card">
+        <img
+          src="images/Shiva/shiva.jpg"
+          alt="Shiva With Trishul Straw Craft A4"
+          class="product-img"
+          data-gallery='[
+            "images/Shiva/shiva.jpg",
+            "images/Shiva/shiva2.jpg"
+          ]'
+        >
+
+        <h3>Shiva Straw Craft</h3>
+        <p>A rear eco-friendly art made by paddy straw. This picture describes Lord Shiva</p>
+
+        <p class="price">
+          <span class="old">₹1500</span> ₹1100
+        </p>
+
+        <a
+          href="https://wa.me/9339949998?text=Hi%2C%20I%27d%20like%20to%20buy%20Shiva%20Straw%20Craft%20A4%20Item Number : STC2025 %20Price%20(₹1100)"
+          class="buy-btn"
+        >
+          Buy via WhatsApp
+        </a>
       </div>
     </div>
   </section>
 
   <footer>
-    <p>© 2025 Handmade Haven. All rights reserved.</p>
+    <p>© 2025 Prava Crafts. All rights reserved.</p>
   </footer>
+  <div id="galleryModal" class="gallery-modal">
+    <span class="close">&times;</span>
+    <img id="galleryImage" src="" alt="Product Image">
+    <div class="gallery-controls">
+      <button id="prevBtn">❮</button>
+      <button id="nextBtn">❯</button>
+    </div>
+  </div>
+
 
   <script src="script.js"></script>
 </body>
