@@ -3,12 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Garments - Handmade Haven</title>
+  <title>Garments</title>
+  <link rel="icon" href="logo2.png" type="image/x-icon">
   <link rel="stylesheet" href="style.css">
+  
 </head>
 <body>
   <header>
-    <div class="logo">Handmade Haven</div>
+     <div class="logo"><img src="logo.png" alt="Logo of Prava Crafts a branch of Prava Garments " class="img-logo"></div>
     <nav>
       <a href="index.html">Home</a>
       <a href="crafts.html">Crafts</a>
@@ -21,25 +23,73 @@
     <h2>Our Garments</h2>
     <div class="grid">
       <div class="card">
-        <img src="images/bag.webp" alt="Woolen Shawl">
-        <h3>Woolen Shawl</h3>
-        <p>Soft handmade shawl to keep you warm.</p>
-        <p class="price"><span class="old">₹1800</span> ₹1450</p>
-        <a href="https://wa.me/9339949998?text=Hi%20I%20want%20to%20buy%20Woolen%20Shawl%20(₹1450)%20-%20Image%3A%20shawl.jpg" class="buy-btn">Buy via WhatsApp</a>
+        <img
+          src="images/Gujrati Stich/Sharee.jpg"
+          alt="Dancing Woman Straw Craft A4"
+          class="product-img"
+          data-gallery='[
+            "images/Gujrati Stich/Sharee.jpg",
+            "images/Gujrati Stich/Sharee 3.jpg",
+            "images/Gujrati Stich/Sharee2.jpg"
+          ]'
+        >
+
+        <h3>Gujrati Stich Sharee</h3>
+        <p>A rear collection of Gujrati Stich Sharee <br>Chat for detailed collection</p>
+
+        <p class="price">
+          <span class="old">₹5000</span>From ₹2300 to ₹4200
+        </p>
+
+        <a
+          href="https://wa.me/9339949998?text=Hi%2C%20I%27d%20like%20to%20buy%20Gujrati Stich sharee%20Item Number : GSS2025 %20Price%20(₹2300-₹4200)"
+          class="buy-btn"
+        >
+          Buy via WhatsApp
+        </a>
       </div>
 
       <div class="card">
-        <img src="images/bag.webp" alt="Cotton Kurti">
-        <h3>Cotton Kurti</h3>
-        <p>Elegant everyday wear, handcrafted with care.</p>
-        <p class="price"><span class="old">₹1200</span> ₹950</p>
-        <a href="https://wa.me/9339949998?text=Hi%20I%20want%20to%20buy%20Cotton%20Kurti%20(₹950)%20-%20Image%3A%20kurti.jpg" class="buy-btn">Buy via WhatsApp</a>
+        <img
+          src="images/Kantha Stich/kantha.jpg"
+          alt="Dancing Woman Straw Craft A4"
+          class="product-img"
+          data-gallery='[
+            "images/Kantha Stich/kantha.jpg",
+            "images/Kantha Stich/kantha2.jpg"
+          ]'
+        >
+
+        <h3>Kantha Stich Sharee</h3>
+        <p>A rear collection of Kantha Stich Sharee <br>Chat for detailed collection</p>
+
+        <p class="price">
+          <span class="old">₹6599</span>From ₹3300 to ₹4800
+        </p>
+
+        <a
+          href="https://wa.me/9339949998?text=Hi%2C%20I%27d%20like%20to%20buy%20Kantha Stich sharee%20Item Number : KSS2025 %20Price%20(₹2300-₹4200)"
+          class="buy-btn"
+        >
+          Buy via WhatsApp
+        </a>
       </div>
+
     </div>
   </section>
 
   <footer>
-    <p>© 2025 Handmade Haven. All rights reserved.</p>
+    <p>© 2025 Prava Crafts. All rights reserved.</p>
   </footer>
+  <div id="galleryModal" class="gallery-modal">
+    <span class="close">&times;</span>
+    <img id="galleryImage" src="" alt="Product Image">
+    <div class="gallery-controls">
+      <button id="prevBtn">❮</button>
+      <button id="nextBtn">❯</button>
+    </div>
+  </div>
+  <script src="script.js"></script>
 </body>
+
 </html>
