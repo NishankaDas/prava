@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prava Garments - Billing System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        
+        /* Print Styles */
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white; padding: 0; margin: 0; font-size: 11pt; color: black; }
+            .print-container { 
+                box-shadow: none !important; 
+                border: 2px solid #222; 
+                padding: 30px !important; 
+                max-width: 100% !important; 
+                border-radius: 0 !important;
+            }
+            .print-border-b { border-bottom: 2px dashed #222 !important; }
+            input, textarea { border: none !important; background: transparent !important; resize: none; overflow: hidden; padding: 0 !important;}
+            .table-header { background-color: transparent !important; color: black !important; border-bottom: 2px solid #222; }
+            th, td { border-color: #555 !important; }
+        }
+        
+        /* Hide discount row if inactive */
+        .hide-discount { display: none !important; }
+    </style>
+</head>
+<body class="bg-slate-100 p-4 md:p-8 min-h-screen">
+
+    <div class="max-w-4xl mx-auto bg-white p-6 md:p-10 rounded-xl shadow-lg print-container">
+        
+        <!-- Header Section -->
+        <div class="text-center mb-6 pb-6 print-border-b border-b border-gray-200">
+            <img src="logo.png" alt="Prava Garments Logo" class="h-24 mx-auto mb-3 object-contain" onerror="this.style.display='none'">
+            <h1 class="text-4xl font-bold text-gray-900 uppercase tracking-widest">Prava Garments</h1>
+            <p class="text-gray-600 mt-1 text-lg">Khamargachi, Hooghly</p>
+            <p class="text-gray-800 font-bold mt-1 text-lg">Ph: 9339949998</p>
+            <div class="mt-4 inline-block border-2 border-gray-800 px-6 py-1 rounded-full font-bold tracking-widest text-sm bg-gray-50">
+                TAX INVOICE / CASH MEMO
+            </div>
+        </div>
+
+        <!-- Customer Details Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 print:border-none print:p-0 print:bg-transparent">
+                <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide">Customer Phone (PK) *</label>
+                <input type="tel" id="customerPhone" placeholder="e.g. 9876543210" class="mt-1 block w-full bg-transparent border-b border-gray-300 focus:border-blue-500 focus:outline-none py-1 text-gray-800 font-semibold text-lg" required>
+                
+                <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mt-4">Customer Name</label>
+                <input type="text" id="customerName" placeholder="e.g. Rahul Das" class="mt-1 block w-full bg-transparent border-b border-gray-300 focus:border-blue-500 focus:outline-none py-1 text-gray-800 font-semibold text-lg">
+            </div>
+            
+            <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 print:border-none print:p-0 print:bg-transparent">
+                <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide">Customer Address (Optional)</label>
+                <textarea id="customerAddress" rows="3" placeholder="Enter address here..." class="mt-1 block w-full bg-transparent border-b border-gray-300 focus:border-blue-500 focus:outline-none py-1 text-gray-800 font-semibold"></textarea>
+            </div>
+        </div>
+
+        <!-- Bill Items Table -->
+        <div class="overflow-x-auto mb-8">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-800 text-white table-header">
+                        <th class="p-3 w-12 text-center border border-slate-300">Sl.</th>
+                        <th class="p-3 border border-slate-300">Item Description</th>
+                        <th class="p-3 w-28 text-right border border-slate-300">Price (₹)</th>
+                        <th class="p-3 w-20 text-center border border-slate-300">Qty</th>
+                        <th class="p-3 w-32 text-right border border-slate-300">Total (₹)</th>
+                        <th class="p-3 w-12 text-center no-print border border-slate-300">Act</th>
+                    </tr>
+                </thead>
+                <tbody id="billItems" class="text-gray-800">
+                    <!-- Items injected via JS -->
+                </tbody>
+                
+                <!-- Totals Section -->
+                <tfoot class="border-t-2 border-gray-800">
+                    <!-- Subtotal -->
+                    <tr class="font-semibold text-gray-700" id="subtotalRow">
+                        <td colspan="4" class="p-2 text-right border border-slate-300">Subtotal:</td>
+                        <td class="p-2 text-right border border-slate-300" id="subTotal">₹0.00</td>
+                        <td class="p-2 no-print border border-slate-300"></td>
+                    </tr>
+                    
+                    <!-- Discount (Conditional) -->
+                    <tr class="font-semibold text-red-600 hide-discount" id="discountRow">
+                        <td colspan="4" class="p-2 text-right border border-slate-300">Discount Applied:</td>
+                        <td class="p-2 text-right border border-slate-300" id="discountDisplay">-₹0.00</td>
+                        <td class="p-2 no-print border border-slate-300"></td>
+                    </tr>
+                    
+                    <!-- Grand Total -->
+                    <tr class="font-bold text-gray-900 bg-slate-100 print:bg-transparent text-lg">
+                        <td colspan="4" class="p-3 text-right border border-slate-300">GRAND TOTAL:</td>
+                        <td class="p-3 text-right border border-slate-300" id="grandTotal">₹0.00</td>
+                        <td class="p-3 no-print border border-slate-300"></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <!-- Stamp & Signature (Visible mostly on print) -->
+        <div class="flex justify-between mt-16 pt-8 px-4">
+            <div class="text-center w-40">
+                <div class="border-t-2 border-gray-800 pt-2 font-semibold text-sm text-gray-700">
+                    DATE
+                </div>
+            </div>
+            <div class="text-center w-56">
+                <div class="border-t-2 border-gray-800 pt-2 font-semibold text-sm text-gray-700">
+                    For Prava Garments<br>
+                    <span class="text-xs font-normal text-gray-500">(Authorized Signatory / Stamp)</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-8 text-xs text-gray-500 font-bold tracking-wider">
+            *** THANK YOU FOR YOUR BUSINESS ***
+        </div>
+
+        <!-- ========================================== -->
+        <!-- CONTROLS SECTION (HIDDEN ON PRINT)         -->
+        <!-- ========================================== -->
+        
+        <div class="no-print mt-10 p-6 bg-slate-50 border border-slate-200 rounded-xl shadow-inner">
+            
+            <h3 class="font-bold text-lg mb-4 text-slate-700 flex items-center">
+                <span class="mr-2">🛒</span> Add Bill Items
+            </h3>
+            
+            <div class="flex flex-wrap gap-3 mb-6">
+                <input type="text" id="newItemName" placeholder="Item Name" class="flex-grow p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none shadow-sm">
+                <input type="number" id="newItemPrice" placeholder="Price (₹)" class="w-32 p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none shadow-sm" min="0">
+                <input type="number" id="newItemQty" placeholder="Qty" class="w-24 p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none shadow-sm" value="1" min="1">
+                <button onclick="addItem()" class="bg-slate-800 hover:bg-slate-900 text-white px-6 py-3 rounded-lg font-bold shadow-md transition-colors">Add Item</button>
+            </div>
+
+            <div class="border-t border-slate-200 pt-6 mb-6">
+                <h3 class="font-bold text-slate-700 mb-2">Apply Discount (Optional)</h3>
+                <div class="flex items-center gap-2">
+                    <span class="text-gray-600 font-bold">₹</span>
+                    <input type="number" id="discountInput" placeholder="0" class="w-32 p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" min="0" oninput="renderTable()">
+                    <span class="text-sm text-gray-500 italic ml-2">Leave 0 or blank for no discount.</span>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row justify-end gap-4 border-t border-slate-200 pt-6">
+                <button onclick="window.print()" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg shadow-lg font-bold flex items-center justify-center transition-colors">
+                    <span class="mr-2">🖨️</span> Print Bill
+                </button>
+                <button onclick="saveBill()" id="saveBtn" class="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-3 rounded-lg shadow-lg font-bold flex items-center justify-center transition-colors">
+                    <span class="mr-2">💾</span> Save to Google Sheets
+                </button>
+            </div>
+
+            <p id="statusMsg" class="mt-4 text-center font-bold"></p>
+        </div>
+    </div>
+
+    <script>
+        // --- CONFIGURATION ---
+        // REPLACE WITH YOUR NEW GOOGLE APPS SCRIPT WEB APP URL
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwnjaTRvhAiJO3qVP_MK8hQhGwYMrjjsGOlf2UY2RsnR8A3KPf2XsAZ6BQ0VwYDAZ26/exec"; 
+        // ---------------------
+
+        let items = [];
+
+        function renderTable() {
+            const tbody = document.getElementById('billItems');
+            tbody.innerHTML = '';
+            let subTotal = 0;
+
+            // Render Items
+            items.forEach((item, index) => {
+                const total = item.price * item.qty;
+                subTotal += total;
+
+                tbody.innerHTML += `
+                    <tr class="border-b border-slate-200">
+                        <td class="p-2 text-center border-x border-slate-300">${index + 1}</td>
+                        <td class="p-2 font-medium border-x border-slate-300">${item.name}</td>
+                        <td class="p-2 text-right border-x border-slate-300">${item.price.toFixed(2)}</td>
+                        <td class="p-2 text-center border-x border-slate-300">${item.qty}</td>
+                        <td class="p-2 text-right border-x border-slate-300 font-semibold">${total.toFixed(2)}</td>
+                        <td class="p-2 text-center no-print border-x border-slate-300">
+                            <button onclick="removeItem(${index})" class="bg-red-100 text-red-600 hover:bg-red-200 px-3 py-1 rounded font-bold text-sm transition-colors">X</button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            // Calculate Discount
+            const discountInput = document.getElementById('discountInput').value;
+            const discount = parseFloat(discountInput) || 0;
+            const grandTotal = subTotal - discount;
+            
+            // UI Updates
+            document.getElementById('subTotal').innerText = '₹' + subTotal.toFixed(2);
+            document.getElementById('grandTotal').innerText = '₹' + Math.max(0, grandTotal).toFixed(2);
+
+            // Handle Discount Visibility
+            const discountRow = document.getElementById('discountRow');
+            if (discount > 0) {
+                discountRow.classList.remove('hide-discount');
+                document.getElementById('discountDisplay').innerText = '-₹' + discount.toFixed(2);
+            } else {
+                discountRow.classList.add('hide-discount');
+            }
+        }
+
+        function addItem() {
+            const name = document.getElementById('newItemName').value;
+            const price = parseFloat(document.getElementById('newItemPrice').value);
+            const qty = parseInt(document.getElementById('newItemQty').value);
+
+            if (!name || isNaN(price) || isNaN(qty)) {
+                alert("Please fill out Item Name, Price, and Quantity correctly.");
+                return;
+            }
+
+            items.push({ name, price, qty });
+            renderTable();
+
+            document.getElementById('newItemName').value = '';
+            document.getElementById('newItemPrice').value = '';
+            document.getElementById('newItemQty').value = '1';
+            document.getElementById('newItemName').focus();
+        }
+
+        function removeItem(index) {
+            items.splice(index, 1);
+            renderTable();
+        }
+
+        function saveBill() {
+            const phone = document.getElementById('customerPhone').value;
+            const customerName = document.getElementById('customerName').value;
+            const address = document.getElementById('customerAddress').value;
+            const discount = parseFloat(document.getElementById('discountInput').value) || 0;
+            const statusMsg = document.getElementById('statusMsg');
+            const saveBtn = document.getElementById('saveBtn');
+
+            if (!phone) {
+                alert("Customer Phone Number is mandatory!");
+                document.getElementById('customerPhone').focus();
+                return;
+            }
+            if (items.length === 0) {
+                alert("Cannot save an empty bill.");
+                return;
+            }
+
+            const subTotal = items.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            const totalAmount = Math.max(0, subTotal - discount);
+
+            const payload = {
+                phone: phone,
+                customerName: customerName,
+                address: address,
+                discount: discount,
+                items: items,
+                totalAmount: totalAmount
+            };
+
+            saveBtn.innerHTML = "⏳ Saving...";
+            saveBtn.disabled = true;
+            statusMsg.innerText = "Saving to Google Sheets...";
+            statusMsg.className = "mt-4 text-center font-bold text-blue-600";
+
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: "POST",
+                mode: "no-cors", 
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            })
+            .then(() => {
+                statusMsg.innerText = "✅ Bill saved successfully!";
+                statusMsg.className = "mt-4 text-center font-bold text-emerald-600";
+                saveBtn.innerHTML = "<span class='mr-2'>💾</span> Save to Google Sheets";
+                saveBtn.disabled = false;
+            })
+            .catch(error => {
+                statusMsg.innerText = "❌ Error saving bill.";
+                statusMsg.className = "mt-4 text-center font-bold text-red-600";
+                saveBtn.innerHTML = "<span class='mr-2'>💾</span> Save to Google Sheets";
+                saveBtn.disabled = false;
+                console.error("Error:", error);
+            });
+        }
+    </script>
+</body>
+</html>
